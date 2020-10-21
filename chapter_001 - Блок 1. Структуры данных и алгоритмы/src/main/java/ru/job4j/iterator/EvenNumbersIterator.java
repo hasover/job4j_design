@@ -27,14 +27,4 @@ public class EvenNumbersIterator implements Iterator<Integer> {
         }
         return data[index++];
     }
-
-    @Override
-    public void forEachRemaining(Consumer<? super Integer> action) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
 }
