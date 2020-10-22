@@ -10,21 +10,17 @@ public class FlatMap<T> implements Iterator<T> {
 
     public FlatMap(Iterator<Iterator<T>> data) {
         this.data = data;
+        if (data.hasNext()) {
+            cursor = data.next();
+        }
     }
 
     @Override
     public boolean hasNext() {
-        if (cursor != null && cursor.hasNext()) {
-            return true;
-        } else {
-            if (data.hasNext()) {
-                cursor = data.next();
-            }
-            else {
-                return false;
-            }
+        while(!cursor.hasNext() && data.hasNext()) {
+            cursor = data.next();
         }
-        return true;
+        return cursor.hasNext();
     }
 
     @Override
