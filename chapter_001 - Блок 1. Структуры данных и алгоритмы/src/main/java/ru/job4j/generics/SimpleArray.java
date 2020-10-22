@@ -6,22 +6,22 @@ import java.util.Objects;
 
 public class SimpleArray<T> {
     private T[] data;
-    private int index = -1;
+    private int index = 0;
 
     public SimpleArray(int size) {
         data = (T[]) new Object[size];
     }
 
     public void add(T item) {
-        data[Objects.checkIndex(++index, data.length)] = item;
+        data[Objects.checkIndex(index++, data.length)] = item;
     }
 
     public void set(int index, T model) {
-        data[Objects.checkIndex(index, this.index + 1)] = model;
+        data[Objects.checkIndex(index, this.index)] = model;
     }
 
     public T get(int index) {
-        return data[Objects.checkIndex(index, this.index + 1)];
+        return data[Objects.checkIndex(index, this.index)];
     }
     public void remove(int index) {
         System.arraycopy(data,
@@ -36,7 +36,7 @@ public class SimpleArray<T> {
             private int indexIterator = 0;
             @Override
             public boolean hasNext() {
-                return indexIterator <= index;
+                return indexIterator < index;
             }
 
             @Override
