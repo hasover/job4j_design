@@ -1,14 +1,14 @@
 package ru.job4j.collection;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class SimpleHashMap<K,V> implements Iterable<K> {
     private final static double LOAD_FACTOR = 0.75;
-    private Node<K,V>[] container = new Node[16];
+    private Node<K, V>[] container = new Node[16];
     private int items;
+    private int modCount;
 
-    private class Node<K,V> {
+    private class Node<K, V> {
         K key;
         V value;
 
@@ -18,42 +18,50 @@ public class SimpleHashMap<K,V> implements Iterable<K> {
         }
     }
 
-    private int hash(K key) {
-        return (key.hashCode() ^ (key.hashCode() >>> 16)) & (container.length - 1);
+    private int hash(K key, int buckets) {
+        return (key.hashCode() ^ (key.hashCode() >>> 16)) & (buckets - 1);
     }
 
     private void grow() {
-        if ((double)items / container.length < LOAD_FACTOR) {
+        if ((double) items / container.length < LOAD_FACTOR) {
             return;
         }
         Node<K, V>[] newContainer = new Node[container.length * 2];
-        System.arraycopy(container, 0, newContainer, 0, container.length);
+        for (Node<K, V> kvNode : container) {
+            if (kvNode != null) {
+                int hash = hash(kvNode.key, newContainer.length);
+                newContainer[hash] = kvNode;
+            }
+        }
         container = newContainer;
     }
 
     public boolean insert(K key, V value) {
-        int hash = hash(key);
+        int hash = hash(key, container.length);
         if (container[hash] != null) {
             return false;
         }
         container[hash] = new Node<>(key, value);
         items++;
+        modCount++;
         grow();
         return true;
     }
 
     public V get(K key) {
-        int hash = hash(key);
-        return container[hash] == null ? null : container[hash].value;
+        int hash = hash(key, container.length);
+        return (container[hash] == null ||
+                !Objects.equals(container[hash].key, key)) ? null : container[hash].value;
     }
 
     public boolean delete(K key) {
-        int hash = hash(key);
-        if (container[hash] == null) {
+        int hash = hash(key, container.length);
+        if (container[hash] == null || !Objects.equals(container[hash].key, key)) {
             return false;
         }
         container[hash] = null;
         items--;
+        modCount++;
         return true;
     }
 
@@ -61,6 +69,7 @@ public class SimpleHashMap<K,V> implements Iterable<K> {
     public Iterator<K> iterator() {
         return new Iterator<K>() {
             private int index = 0;
+            private final int mods = modCount;
 
             @Override
             public boolean hasNext() {
@@ -74,6 +83,9 @@ public class SimpleHashMap<K,V> implements Iterable<K> {
             public K next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
+                }
+                if (mods != modCount) {
+                    throw new ConcurrentModificationException();
                 }
                 return container[index++].key;
             }
