@@ -8,16 +8,13 @@ import java.util.stream.Collectors;
 
 public class Analize {
     public static Info diff(List<User> previous, List<User> current) {
-        Map<Integer,User> previousUsers = previous.
-                                          stream().
-                                          collect(Collectors.toMap(user -> user.id, user -> user));
-        Map<Integer,User> currentUsers = current.
+        Map<Integer, User> currentUsers = current.
                                           stream().
                                           collect(Collectors.toMap(user -> user.id, user -> user));
         int added = 0, changed = 0, deleted = 0, same = 0;
-        for (Integer key : previousUsers.keySet()) {
-            if (currentUsers.containsKey(key)) {
-                if (previousUsers.get(key).name.equals(currentUsers.get(key).name)) {
+        for (User previousUser : previous) {
+            if (currentUsers.containsKey(previousUser.id)) {
+                if (previousUser.name.equals(currentUsers.get(previousUser.id).name)) {
                     same++;
                 }
                 else {
