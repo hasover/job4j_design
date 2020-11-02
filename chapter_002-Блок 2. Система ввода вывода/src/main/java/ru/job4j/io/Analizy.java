@@ -30,6 +30,9 @@ public class Analizy {
                     }
                 }
             }
+            if (!startTime.equals("")) {
+                writer.write(startTime + ";" + System.lineSeparator());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

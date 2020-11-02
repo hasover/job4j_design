@@ -19,7 +19,18 @@ public class AnalizyTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
+    @Test
+    public void whenCheckUnavailable2() {
+        String target = "./data/target2.txt";
+        new Analizy().unavailable("./data/server2.log", target);
+        try (BufferedReader reader = new BufferedReader(new FileReader(target))) {
+            assertThat(reader.readLine(), is ("10:58:01;10:59:01"));
+            assertThat(reader.readLine(), is ("11:01:02;"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
