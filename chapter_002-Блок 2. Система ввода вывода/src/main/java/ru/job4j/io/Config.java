@@ -17,7 +17,6 @@ public class Config {
     }
 
     public void load() {
-        StringJoiner out = new StringJoiner(System.lineSeparator());
         try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
             reader.
                     lines().
@@ -45,9 +44,7 @@ public class Config {
     }
 
     public static void main(String[] args) {
-        String path = ".\\chapter_002-Блок 2. Система ввода вывода\\" +
-                "src\\main\\java\\" +
-                "ru\\job4j\\io\\data\\app.properties";
+        String path = "./chapter_002-Блок 2. Система ввода вывода/data/app.properties";
 
         new Config(path).load();
     }
