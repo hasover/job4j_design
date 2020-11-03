@@ -9,10 +9,7 @@ public class Analizy {
         String startTime = "";
         String endTime = "";
         List<String> timePeriods = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(source));
-             PrintWriter writer = new PrintWriter(
-                             new BufferedOutputStream(
-                             new FileOutputStream(target))))
+        try (BufferedReader reader = new BufferedReader(new FileReader(source)))
         {
             while (reader.ready()) {
                 String line = reader.readLine();
