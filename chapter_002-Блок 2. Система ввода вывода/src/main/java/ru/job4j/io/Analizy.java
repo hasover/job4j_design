@@ -1,11 +1,14 @@
 package ru.job4j.io;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Analizy {
     public void unavailable(String source, String target) {
         String startTime = "";
         String endTime = "";
+        List<String> timePeriods = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(source));
              PrintWriter writer = new PrintWriter(
                              new BufferedOutputStream(
@@ -24,17 +27,25 @@ public class Analizy {
                 } else {
                     if (!startTime.equals("")) {
                         endTime = dataLog[1];
-                        writer.write(startTime + ";" + endTime + System.lineSeparator());
+                        timePeriods.add(startTime + ";" + endTime + System.lineSeparator());
                         startTime = "";
                         endTime = "";
                     }
                 }
             }
             if (!startTime.equals("")) {
-                writer.write(startTime + ";" + System.lineSeparator());
+                timePeriods.add(startTime + ";" + System.lineSeparator());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try (PrintWriter writer = new PrintWriter(
+                                  new BufferedOutputStream(
+                                  new FileOutputStream(target)))) {
+            timePeriods.forEach(writer::write);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
     }
 }
