@@ -23,9 +23,13 @@ public class EchoServer {
                     }
                     System.out.println(str);
                 }
-                out.write("HTTP/1.1 200 OK\r\n\\".getBytes());
-                if (message.equals("Bye")) {
+                out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                if (message.equals("Hello")) {
+                    out.write("Hello, dear friend.".getBytes());
+                } else if (message.equals("Exit")) {
                     break;
+                } else {
+                    out.write(message.getBytes());
                 }
             }
         }
