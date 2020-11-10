@@ -2,8 +2,11 @@ package ru.job4j.serialization;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.List;
 
 class Person {
     String name;
@@ -38,6 +41,26 @@ public class Shop {
         this.products = products;
     }
 
+    public boolean isOpen24() {
+        return isOpen24;
+    }
+
+    public int getNumOfWorkers() {
+        return numOfWorkers;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public String[] getProducts() {
+        return products;
+    }
+
     @Override
     public String toString() {
         return "Shop{" +
@@ -62,5 +85,13 @@ public class Shop {
                 "}";
         final Shop shopMod = gson.fromJson(shopJson, Shop.class);
         System.out.println(shopMod);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("isOpen24", shop.isOpen24());
+        jsonObject.put("numOfWorkers", shop.getNumOfWorkers());
+        jsonObject.put("address", shop.getAddress());
+        jsonObject.put("owner", new JSONObject("{\"name\":\"Owner\",\"age\":50}"));
+        jsonObject.put("products", new JSONArray(List.of("bread", "Milk")));
+        System.out.println(jsonObject.toString());
+
     }
 }
