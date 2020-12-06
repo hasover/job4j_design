@@ -29,11 +29,11 @@ insert into product(name, type_id, expired_date, price) VALUES ('Ливерна�
 
 insert into product(name, type_id, expired_date, price) VALUES ('Деревенское', 4,'14.12.2020',55);
 
-select name from product where type_id = 1;
+select product.name from product join type t on product.type_id = t.id where t.name = 'Сыр';
 select name from product where name like '%мороженое%';
 select name from  product where extract(month from current_date + interval '1 month')= extract(month from expired_date);
 select name, price from product where price in (select max(price) from product);
 select t.name, count(t.name) as Кол_во from product join type t on product.type_id = t.id group by t.name;
-select name from product where type_id = 1 or type_id = 4;
-select t.name from product join type t on product.type_id = t.id group by t.name having count(t.name) < 10;
+select product.name from product join type t on product.type_id = t.id where t.name = 'Сыр' or t.name = 'Молоко';
+select t.name from product join type t on product.type_id = t.id group by t.name having count(product.id) < 10;
 select p.name Наименование, t.name Тип from product p join type t on p.type_id = t.id;
