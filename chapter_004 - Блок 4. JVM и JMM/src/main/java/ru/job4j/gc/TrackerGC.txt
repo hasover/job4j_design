@@ -1,0 +1,18 @@
+package ru.job4j.tracker;
+
+import java.util.Scanner;
+
+public class TrackerGC {
+    public static void main(String[] args) {
+        Store tracker = new MemTracker();
+        Scanner scanner = new Scanner(System.in);
+        scanner.next();
+        for (long i = 0; i <1_000_000 ; i++) {
+            tracker.add(new Item(1, "Item".repeat(10)));
+        }
+        scanner.next();
+    }
+}
+
+
+Для анализа памяти использовалась программа выше. Используя jmap и jconsole можно оценить использование heap после добавления 1млн заявок (cм. jmap.png jconsole1.png).
