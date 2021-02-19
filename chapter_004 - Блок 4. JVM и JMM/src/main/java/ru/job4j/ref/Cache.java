@@ -6,7 +6,7 @@ import java.util.Map;
 
 public abstract class Cache<Key, Value> {
     protected Map<Key, SoftReference<Value>> map = new HashMap<>();
-    public abstract void addObject(Key key);
+    public abstract Value addObject(Key key);
     public Value getObject(Key key) {
         SoftReference<Value> soft = map.get(key);
         if (soft == null) {
@@ -14,8 +14,7 @@ public abstract class Cache<Key, Value> {
         }
         Value data = soft.get();
         if (data == null) {
-            addObject(key);
-            return map.get(key).get();
+            data = addObject(key);
         }
         return data;
     }

@@ -5,8 +5,10 @@ import java.lang.ref.SoftReference;
 
 public class FileCache extends Cache<String, String> {
 
-    public void addObject(String filePath) {
-        map.put(filePath, new SoftReference<String>(loadFileInfo(filePath)));
+    public String addObject(String filePath) {
+        String fileData = loadFileInfo(filePath);
+        map.put(filePath, new SoftReference<String>(fileData));
+        return fileData;
     }
 
     private String loadFileInfo(String filePath) {
