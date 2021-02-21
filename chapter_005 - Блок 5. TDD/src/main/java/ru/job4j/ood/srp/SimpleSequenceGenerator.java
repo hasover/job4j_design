@@ -1,0 +1,21 @@
+package ru.job4j.ood.srp;
+
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+public class SimpleSequenceGenerator implements SequenceGenerator<Integer> {
+    private final NumberGenerator<Integer> generator;
+
+    public SimpleSequenceGenerator(NumberGenerator<Integer> generator) {
+        this.generator = generator;
+    }
+
+    @Override
+    public List<Integer> generate(int size) {
+        Random random = new Random();
+        return IntStream.range(0, size).map(i -> generator.generate()).boxed().collect(Collectors.toList());
+    }
+
+}
