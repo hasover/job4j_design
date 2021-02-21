@@ -37,5 +37,25 @@ public class CinemaTest {
         assertThat(cinema.find(session -> session.equals(newSession)).isEmpty(), is(false));
     }
 
+    @Test(expected = Exception.class)
+    public void buySameSeat() {
+        Account account1 = new AccountCinema();
+        Account account2 = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2020, 10, 10, 23, 00);
+        Ticket ticket1 = cinema.buy(account1, 1, 1, date);
+        Ticket ticket2 = cinema.buy(account2, 1, 1, date);
+    }
+
+    @Test(expected = Exception.class)
+    public void buyInvalidDate() {
+        Account account = new AccountCinema();
+        Cinema cinema = new Cinema3D();
+        Calendar date = Calendar.getInstance();
+        date.set(2019, 10, 10, 23, 00);
+        Ticket ticket = cinema.buy(account, 1, 1, date);
+    }
+
 
 }
