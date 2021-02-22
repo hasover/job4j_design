@@ -1,26 +1,8 @@
 package ru.job4j.ood.srp;
 
 import java.util.List;
-/*
-Методом saveItemsData()-сохранение данных - должен заниматься другой класс.
-Нарушение SRP
- */
-public class Store {
+import java.util.function.Predicate;
 
-    public void addItem() {
-
-    }
-
-    public void removeItem() {
-
-    }
-
-    public List allItems() {
-        return null;
-    }
-
-    public void saveItemsData() {
-
-    }
-
+public interface Store {
+    List<Employee> findBy(Predicate<Employee> filter);
 }
