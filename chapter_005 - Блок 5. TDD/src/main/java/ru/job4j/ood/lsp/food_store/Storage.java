@@ -7,7 +7,11 @@ public class Storage {
         this.store = store;
 
     }
-    public void storeItem(Food item) {
-        store.store(item);
+    public boolean storeItem(Food item) {
+        if (store.accept(item)) {
+            store.store(item);
+            return true;
+        }
+        return false;
     }
 }

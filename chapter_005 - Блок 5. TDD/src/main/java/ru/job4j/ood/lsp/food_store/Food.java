@@ -59,6 +59,17 @@ public class Food {
         this.discount = discount;
     }
 
+    public double timeToExpire () {
+        if (expireDate.before(Calendar.getInstance())) {
+            return 0;
+        }
+
+        long lifeTime = expireDate.getTimeInMillis() - createDate.getTimeInMillis();
+        long timeLeft = expireDate.getTimeInMillis() - Calendar.getInstance().getTimeInMillis();
+
+        return (double) timeLeft/lifeTime;
+    }
+
     @Override
     public String toString() {
         return "Food{" +
