@@ -17,12 +17,16 @@ public class ControllQuality {
 
     public void sortFood(List<Food> items) {
         for (Food item : items) {
+            sortFood(item);
 
-            for (Store store : stores) {
-                storage.setStorage(store);
-                if (storage.storeItem(item)) {
-                    break;
-                }
+        }
+    }
+
+    public void sortFood(Food item) {
+        for (Store store : stores) {
+            storage.setStorage(store);
+            if (storage.storeItem(item)) {
+                break;
             }
         }
     }
