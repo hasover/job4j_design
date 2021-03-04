@@ -1,11 +1,10 @@
 package ru.job4j.ood.lsp.parking;
 
-public class TruckParking implements Parking {
+public class ParkingLot implements Parking {
 
-    public TruckParking(int parkingLots) {
+    public ParkingLot(int passengers, int trucks) {
 
     }
-
     @Override
     public boolean park(Car car) {
         return false;
