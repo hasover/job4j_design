@@ -43,8 +43,4 @@ public class ParkingTest {
         assertThat(parking.park(new PassengerCar()), is(false));
     }
 
-
-
-
-
 }
