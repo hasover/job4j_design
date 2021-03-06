@@ -1,20 +1,30 @@
 package ru.job4j.ood.isp;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import java.util.HashMap;
+import java.util.Map;
 public class Menu implements SimpleMenu<MenuItem>, Printable {
-    private List<MenuItem> menuItems = new ArrayList<>();
+    private MenuItem root = new MenuItem("Root");
+    private Map<String, MenuItem> menuItemMap = new HashMap<>();
 
     @Override
     public void addMenuItem(MenuItem item) {
-        menuItems.add(item);
+        root.addSubItem(item);
+        menuItemMap.put(item.getItemName(), item);
+    }
+
+    @Override
+    public void addSubMenuItem(String parent, MenuItem item) {
+        MenuItem parentItem = menuItemMap.get(parent);
+        if (parentItem != null) {
+            parentItem.addSubItem(item);
+            menuItemMap.put(item.getItemName(), item);
+        }
     }
 
     @Override
     public String toStringFormat() {
         StringBuilder builder = new StringBuilder();
-        for(MenuItem item : menuItems) {
+        for(MenuItem item : root.getSubItems()) {
             builder.append(printMenu(item, 0));
         }
         return builder.toString();
@@ -35,26 +45,19 @@ public class Menu implements SimpleMenu<MenuItem>, Printable {
 
     public static void main(String[] args) {
         Menu menu = new Menu();
-        MenuItem menuItem1 = new MenuItem("Task 1.");
-        menu.addMenuItem(menuItem1);
 
-        MenuItem menuItem1_1 = new MenuItem("Task 1.1");
-        menuItem1.addSubItem(menuItem1_1);
+        menu.addMenuItem(new MenuItem("Task 1."));
+        menu.addMenuItem(new MenuItem("Task 2."));
 
-        MenuItem menuItem1_1_1 = new MenuItem("Task 1.1.1");
-        menuItem1_1.addSubItem(menuItem1_1_1);
+        menu.addSubMenuItem("Task 1.", new MenuItem("Task 1.1"));
 
-        MenuItem menuItem1_1_2 = new MenuItem("Task 1.1.2");
-        menuItem1_1.addSubItem(menuItem1_1_2);
+        menu.addSubMenuItem("Task 1.1", new MenuItem("Task 1.1.1") );
 
-        MenuItem menuItem1_1_3 = new MenuItem("Task 1.1.3");
-        menuItem1_1.addSubItem(menuItem1_1_3);
+        menu.addSubMenuItem("Task 1.1", new MenuItem("Task 1.1.2") );
 
-        MenuItem menuItem1_2 = new MenuItem("Task 1.2");
-        menuItem1.addSubItem(menuItem1_2);
+        menu.addSubMenuItem("Task 1.1", new MenuItem("Task 1.1.3") );
 
-        MenuItem menuItem2 = new MenuItem("Task 2.");
-        menu.addMenuItem(menuItem2);
+        menu.addSubMenuItem("Task 1.", new MenuItem("Task 1.2"));
 
         System.out.println(menu.toStringFormat());
     }
