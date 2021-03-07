@@ -1,23 +1,20 @@
 package ru.job4j.ood.isp;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+
 public class Menu implements SimpleMenu<MenuItem>, Printable {
     private MenuItem root = new MenuItem("Root");
-    private Map<String, MenuItem> menuItemMap = new HashMap<>();
 
     @Override
     public void addMenuItem(MenuItem item) {
         root.addSubItem(item);
-        menuItemMap.put(item.getItemName(), item);
     }
 
     @Override
     public void addSubMenuItem(String parent, MenuItem item) {
-        MenuItem parentItem = menuItemMap.get(parent);
+        MenuItem parentItem = searchMenuItem(root, parent);
         if (parentItem != null) {
             parentItem.addSubItem(item);
-            menuItemMap.put(item.getItemName(), item);
         }
     }
 
@@ -28,6 +25,21 @@ public class Menu implements SimpleMenu<MenuItem>, Printable {
             builder.append(printMenu(item, 0));
         }
         return builder.toString();
+    }
+
+    private MenuItem searchMenuItem(MenuItem menuItem, String name) {
+        Queue<MenuItem> menuItemQueue = new LinkedList<>();
+        menuItemQueue.add(menuItem);
+
+        while (!menuItemQueue.isEmpty()) {
+            MenuItem item = menuItemQueue.poll();
+            if (item.getItemName().equals(name)) {
+                return item;
+            } else if (item.getSubItems().size() != 0) {
+                menuItemQueue.addAll(item.getSubItems());
+            }
+        }
+        return null;
     }
 
     private String printMenu(MenuItem item, int depth) {
