@@ -12,10 +12,10 @@ public class TruckParking implements Parking {
     @Override
     public boolean park(Car car) {
         int carSize = car.size();
-        if (carSize == 1 || placesTaken + carSize > parkingPlaces) {
+        if (carSize == 1 || placesTaken == parkingPlaces) {
             return false;
         }
-        placesTaken += carSize;
+        placesTaken += 1;
         return true;
     }
 }
