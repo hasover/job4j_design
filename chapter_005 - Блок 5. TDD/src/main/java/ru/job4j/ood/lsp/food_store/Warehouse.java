@@ -19,6 +19,14 @@ public class Warehouse implements Store, Iterable<Food> {
     }
 
     @Override
+    public List<Food> clear() {
+        List<Food> foodList = new ArrayList<>();
+        foodList.addAll(list);
+        list.clear();
+        return foodList;
+    }
+
+    @Override
     public void store(Food item) {
      list.add(item);
     }

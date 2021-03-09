@@ -20,6 +20,19 @@ public class Shop implements Store, Iterable<Food> {
     }
 
     @Override
+    public List<Food> clear() {
+        List<Food> foodList = new ArrayList<>();
+        for(Food item: list) {
+            if (item.timeToExpire() <= 0.25) {
+                item.setDiscount(0);
+            }
+            foodList.add(item);
+        }
+        list.clear();
+        return foodList;
+    }
+
+    @Override
     public void store(Food item) {
         if (item.timeToExpire() <= 0.25) {
             item.setDiscount(0.3);

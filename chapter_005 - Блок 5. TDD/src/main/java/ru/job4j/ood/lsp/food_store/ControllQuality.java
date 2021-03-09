@@ -31,6 +31,14 @@ public class ControllQuality {
         }
     }
 
+    public void resort() {
+        List<Food> foodList = new ArrayList<>();
+        for (Store store: stores) {
+            foodList.addAll(store.clear());
+        }
+        sortFood(foodList);
+    }
+
     public static void main (String[] args) {
 
         Warehouse warehouse = new Warehouse(x -> x.timeToExpire() >= 0.75);
@@ -64,6 +72,7 @@ public class ControllQuality {
                 new GregorianCalendar(2021, Calendar.MARCH, 26), 56.78, 0));
 
         controllQuality.sortFood(items);
+        controllQuality.resort();
 
         for (Food item : trash) {
             System.out.println(item);
